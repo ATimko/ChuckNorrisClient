@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,16 +17,19 @@ namespace ChuckNorrisClient
         /// <summary>
         /// The text of the joke
         /// </summary>
-        public string Joke { get; set; }
+        [JsonProperty("joke")]
+        public string JokeText { get; set; }
 
         /// <summary>
         /// Categories the joke belongs to
         /// </summary>
-        public List<object> Categories { get; set; }
+        public List<string> Categories { get; set; }
     }
     public class RandJokeResponse
     {
         public string Type { get; set; }
-        public Value Value { get; set; }
+
+        [JsonProperty("value")]
+        public Value JokeData { get; set; }
     }
 }

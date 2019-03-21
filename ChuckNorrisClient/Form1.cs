@@ -45,8 +45,8 @@ namespace ChuckNorrisClient
                 RandJokeResponse data =
                     await response.Content.ReadAsAsync<RandJokeResponse>();
 
-                Value jokeData = data.Value;
-                string decodedJoke = WebUtility.HtmlDecode(jokeData.Joke);
+                Value jokeData = data.JokeData;
+                string decodedJoke = WebUtility.HtmlDecode(jokeData.JokeText);
 
                 //Decode any special HTML Entities
                 //ex. &quot; should be "
