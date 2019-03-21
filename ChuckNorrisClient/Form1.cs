@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -37,12 +38,29 @@ namespace ChuckNorrisClient
         {
             HttpResponseMessage response =
                 await client.GetAsync("jokes/random");
+
             //Check if web service returns HTTP 200 - OK
             if(response.IsSuccessStatusCode)
             {
-                string data =
-                    await response.Content.ReadAsStringAsync();
-                MessageBox.Show(data);
+                RandJokeResponse data =
+                    await response.Content.ReadAsAsync<RandJokeResponse>();
+
+                Value jokeData = data.Value;
+                string decodedJoke = WebUtility.HtmlDecode(jokeData.Joke);
+
+                //Decode any special HTML Entities
+                //ex. &quot; should be "
+                MessageBox.Show(decodedJoke);
+
+                //Can use this way too
+                //MessageBox.Show(data.value.joke);
+                //MessageBox.Show(data.value.categories.ToString());
+                if(jokeData.Categories.Count > 0)
+                {
+                //MessageBox.Show(jokeData.categories.ToString());
+                MessageBox.Show(string.Join("\n",jokeData.Categories));
+                }
+                //MessageBox.Show(jokeData.joke);
             }
             else
             {
